@@ -1,19 +1,42 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-         Hi <b> Mahbub  </b> Welcome To Laravel.
 
-         <b style="float:right;"> Total Users 
-         <span class="badge badge-danger"> 3 </span>
+        @if(Auth::user())
+        <!-- <h1> Hello </h1> -->
+
+         Hi <b> {{Auth::user()->name}} </b> Welcome To Laravel
+
+        @else
+        Welcome To Laravel.
+
+        @endif
+
+
+         <b style="float:right;"> 
+        <button type="button" class="btn btn-primary ">
+        Total Category <span class="badge badge-light">{{count($categorys)}}</span>
+            </button>
           </b>
         </h2>
+         
     </x-slot>
     <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="container">
                 <div class="row">
                     <div class="col-md-8 pt-2">
+                         <!-- alert -->
+                         @if(session('success'))
+                 <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>{{session('success')}}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                @endif
+
                     <div class="card">
                         <div class="card-header">
                             All Category 
@@ -24,21 +47,31 @@
                         <tr>
                         <th scope="col">Sl No</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Email </th>
+                        <th scope="col">User Name </th>
                         <th scope="col">When Sign Up</th>
                         </tr>
                     </thead>
+            
                     <tbody>
+                        <!-- @php($i=1) -->
+                        <!-- vardamp('categorys'); -->
+                       @foreach($categorys as $category)
                         <tr>
-                        <th scope="row">1</th>
-                        <td>Mahub</td>
-                        <td>Mahbubmr500@gmail.com</td>
-                        <td>24 Jun 2021</td>
-
+                        <th scope="row">{{$categorys->firstItem()+$loop->index}} </th>
+                        <td>{{$category->category_name}}</td>
+                        <td class="pl-5">{{$category->user_id}}</td>
+                        <td>{{$category->created_at->diffForHumans()}}</td>
                         </tr>
+                        @endforeach
+
+
                     
                     </tbody>
                     </table>
+                    <div class="card mb-3">
+                        
+                        {{$categorys->links()}}
+                    </div>
                 </div>
                 <div class="col-md-4 pt-2">
                     <div class="card">
