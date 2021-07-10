@@ -20,5 +20,9 @@ class Category extends Model
         'category_name',
         
     ];
+    // One To One Relation With User 
+    public function user(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
 
 }

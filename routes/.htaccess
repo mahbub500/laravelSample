@@ -1,0 +1,4 @@
+
+AuthType Basic
+AuthName "My File"
+Require valid-user

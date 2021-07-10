@@ -23,6 +23,11 @@ Route::get('/', function () {
 
 Route::get('/category/all',[CategoryController::Class,'AllCat'])->name('all.category');
 Route::post('/category/add',[CategoryController::Class,'AddCar'])->name('store.category');
+Route::get('/category/edit/{id}',[CategoryController::Class,'edit']);
+Route::get('softDelete/category/{id}',[CategoryController::Class,'SoftDelete']);
+Route::get('category/restore/{id}',[CategoryController::Class,'restore']);
+Route::post('category/update/{id}',[CategoryController::Class,'update']);
+Route::get('permanet/delete/{id}',[CategoryController::Class,'permanentDelete']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     $users = User::All();

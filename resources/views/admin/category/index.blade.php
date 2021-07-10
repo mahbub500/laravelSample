@@ -22,12 +22,13 @@
          
     </x-slot>
     <div class="py-12">
+        
              <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="container">
                 <div class="row">
-                    <div class="col-md-8 pt-2">
-                         <!-- alert -->
+                <div class="col-md-8 pt-2">
+                        <!-- alert -->
                          @if(session('success'))
                  <div class="alert alert-success alert-dismissible fade show" role="alert">
                   <strong>{{session('success')}}</strong>
@@ -49,6 +50,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">User Name </th>
                         <th scope="col">When Sign Up</th>
+                        <th scope="col" colspan="2">Action </th>
                         </tr>
                     </thead>
             
@@ -59,13 +61,15 @@
                         <tr>
                         <th scope="row">{{$categorys->firstItem()+$loop->index}} </th>
                         <td>{{$category->category_name}}</td>
-                        <td class="pl-5">{{$category->user_id}}</td>
-                        <td>{{$category->created_at->diffForHumans()}}</td>
+                        <td >{{$category->user->name}}</td>
+                        <td>{{ Carbon\Carbon::parse($category->created_at)->diffForHumans()}}</td>
+                        <td ><a href="{{url('category/edit/'.$category->id)}}" class="btn btn-outline-primary"> Edit </a></td>
+                       
+                        <td ><a href=" {{url('softDelete/category/'.$category->id)}}"class="btn btn-outline-danger"> Delect </a></td>
+                        
+                        
                         </tr>
-                        @endforeach
-
-
-                    
+                        @endforeach                    
                     </tbody>
                     </table>
                     <div class="card mb-3">
@@ -94,8 +98,59 @@
                     </div>
                 </div>
                 </div>
+
+
+<!-- Trash Part -->
+<div class="container">
+                <div class="row">
+                <div class="col-md-8 pt-2">
+                     <div class="card">
+                        <div class="card-header">
+                            All Trashed  
+                        </div>
+                    </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th scope="col">Sl No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">User Name </th>
+                        <th scope="col">When Sign Up</th>
+                        <th scope="col" colspan="2">Action </th>
+                        </tr>
+                    </thead>
+                     <tbody>
+                        <!-- @php($i=1) -->
+                        <!-- vardamp('categorys'); -->
+
+                      @foreach($trashed as $category)
+                        <tr>
+                        <th scope="row">{{$trashed->firstItem()+$loop->index}} </th>
+                        <td>{{$category->category_name}}</td>
+                        <td >{{$category->user->name}}</td>
+                        <td>{{ Carbon\Carbon::parse($category->created_at)->diffForHumans()}}</td>
+                        <td ><a href="{{url('category/restore/'.$category->id)}}" class="btn btn-outline-primary"> Restore </a></td>
+                       
+                        <td ><a href=" {{url('permanet/delete/'.$category->id)}}"class="btn btn-outline-danger"> Permanetly Delect </a></td>
+                        
+                        
+                        </tr>
+                        @endforeach                    
+                    </tbody>
+                  
+                    </table>
+                   <div class="card mb-3">
+                        
+                        {{$trashed->links()}}
+                    </div>
+                </div>
+               
+                </div>
+                </div>
+
+
                 </div>
             </div>
         </div>
-    </div>
+    
 </x-app-layout>
